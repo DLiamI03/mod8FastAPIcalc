@@ -22,7 +22,10 @@ def event_loop():
 async def browser():
     """Create a browser instance for the test session."""
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(
+            headless=True,
+            args=['--no-sandbox', '--disable-dev-shm-usage']  # For CI environments
+        )
         yield browser
         await browser.close()
 
